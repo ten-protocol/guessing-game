@@ -1,0 +1,41 @@
+@import './base.css';
+
+#app {
+  font-weight: normal;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+a.connect-link {
+  color: inherit;
+  text-decoration: underline;
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    background-color: #0f0f0f;
+
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* make sure the body takes the full viewport height */
+    background-image: url('@/assets/logo.png'); /* adjust path if your image is elsewhere */
+    background-size: cover; /* this will cover the entire viewport */
+    background-repeat: no-repeat; /* this will prevent the image from repeating in case it's too small for the container */
+    background-position: center center; /* this will center the image */
+  }
+
+  #app {
+  }
+}

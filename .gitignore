@@ -1,0 +1,10 @@
+**/.DS_Store
+
+**/.env
+**/node_modules
+**/cache
+**/artifacts
+**/deployments
+**/typechain-types
+
+.idea
