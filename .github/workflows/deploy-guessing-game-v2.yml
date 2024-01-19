@@ -1,0 +1,40 @@
+name: Deploy Number Guessing Game v2
+
+on:
+  workflow_dispatch:
+    inputs:
+      address:
+        description: 'Contract Address'
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./guessing-game-v2
+
+      - name: Write Address to JSON
+        run: |
+          echo '{"address": "${{ github.event.inputs.address }}"}' > ./guessing-game-v2/src/assets/contract/address.json
+
+      - name: Build application
+        run: npm run build
+        working-directory: ./guessing-game-v2
+        env: # Or as an environment variable
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./guessing-game-v2/dist
+          destination_dir: ./guessing-game-v2

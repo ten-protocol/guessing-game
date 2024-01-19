@@ -1,53 +1,15 @@
-# Example Number Guessing Game (v2)
+# Sample applications library
 
-This template should help get you started developing with Vue 3 in Vite.
+This project contains example contracts and interfaces for the [TEN](https://obscu.ro/) platform. 
 
-## Recommended IDE Setup
+## Current samples
+### 1. Guessing game (version 1) 
+End to end number guessing game that can be run across a variety of networks, including Hardhat, Arbitrum and 
+TEN. Includes contracts and front end that can be run up locally. This sample is now deprecated in favour of the 
+Guessing Game version 2. 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### 2. Guessing game (version 2)
+The simplified number guessing game that is run and hosted by Obscuro Labs. Play at http://guessing.fun and see if you 
+can break the game to guess the hidden number!
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Create Environment 
-*Assumes a registered viewing key with Ten.*
-
-Create a file `.env` in the project root with the below contents, where `USER_KEY` is supplied when registering 
-your VK's and `PRIVATE_KEY` should be the private key for the account that is registered with Ten. Do not share your
-private key with anybody! For more details please find all the registration steps in https://docs.obscu.ro/.
-
-```
-USER_KEY = <token> 
-PRIVATE_KEY = <private key>
-```
-
-### Compile for Development
-
-```sh
-npm run dev
-```
-
-### Compile for Production
-
-```sh
-npm run build
-```
-
-### Deploy Contract
-
-```sh
-npx hardhat --network ten deploy
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```

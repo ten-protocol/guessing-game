@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<title>Obscuro Guessing Game</title>
+	<link rel="icon" type="favicon-32x32" sizes="32x32" href="favicon-32x32.png">
+	<meta charset='utf-8' />
+	<meta name='viewport' content='width=device-width,initial-scale=1' />
+	<meta name='author' content='James Carlyle' />
+	<meta name='contextname' content='' />
+
+	<link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+	<link rel="stylesheet" href="/custom.css">
+</head>
+
+<body>
+	<script type="module" src="/src/index.ts"></script>
+	<header>
+		<h1>The Obscuro Guessing Game</h1>
+	</header>
+	<template id="message">
+		<p id="info">
+			<button onclick="this.parentElement.remove()">X</button>
+		</p>
+	</template>
+	<main>
+		<aside>
+			Connected address: <span id="connected-address">Not connected</span>.<br/>
+			Network chain ID: <span id="chain-id">Not connected</span>.
+		</aside>
+		<p>Welcome to the Obscuro Number Guessing Game!</p>
+		<p>
+			The game contract contains a secret number, generated when the
+			contract was deployed, and visible only within the trusted execution
+			environments of the Obscuro network. It can not be seen by any node
+			computer or by any node operator.
+		</p>
+		<p>
+			Each guess costs 1 token. If you guess incorrectly, your fee is added to the prize pool. But if you guess
+			correctly, you'll win all of the prize pool! Check the docs
+			<a href="https://docs.obscu.ro/testnet/example-dapps.html" target="_blank">here</a>
+			for more info.
+		</p>
+		<form id="approve-form">
+			<fieldset>
+				<legend>First up, choose the number of guesses you want to buy</legend>
+				<input id="approve-input" type="number" min="0" max="255" required title="Number of guesses."
+					placeholder="number of guesses" /><br />
+				<button id="approve-button">Approve game fee</button>
+			</fieldset>
+		</form>
+		<p>You have <span id="allowance">..connecting..</span> guess(es) left.</p>
+		<form id="guess-form">
+			<fieldset>
+				<legend>Next, guess the secret number from 0 to <span id="guess-range">..connecting..</span></legend>
+				<input id="guess-input" type="number" min="0" max="255" required title="Secret number."
+					placeholder="secret number" /><br />
+				<button id="guess-button">Submit guess</button>
+			</fieldset>
+		</form>
+		<p>Using this app:</p>
+		<ul>
+			<li>Read about <a href="https://docs.obscu.ro/testnet/Introduction/" target="_blank">the Obscuro network</a>.</li>
+			<li>Start the <a href="https://docs.obscu.ro/wallet-extension/wallet-extension/" target="_blank">Obscuro
+					Wallet Extension</a>.</li>
+			<li>Install a wallet such as <a href="https://metamask.io/" target="_blank">MetaMask</a> and add the Obscuro
+					network to your wallet if you haven't already.</li>
+			<li>You'll need some OGG tokens to play the game. Luckily, the 'Approve game fee' step will automatically
+				assign some to you so you can take part.
+			</li>
+			<li>Finally, ask the community on <a href="https://discord.com/channels/916052669955727371/945360340613484684">Discord</a> 
+				if you get stuck or you've got any questions!</li>
+		</ul>
+		<p>
+			Further instructions can be found <a href="https://docs.obscu.ro/testnet/example-dapps/"
+				target="_blank">here</a>.
+		</p>
+	</main>
+</body>
+
+</html>

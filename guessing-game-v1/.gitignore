@@ -1,0 +1,21 @@
+# NPM files
+node_modules
+.env
+
+# Hardhat files
+cache
+artifacts
+
+# OS files
+.DS_Store
+
+# Vite files
+dist
+
+# IDE project files
+.idea/
+
+# Output from the demo utils
+demo-utils/wallet/wallet_extension
+demo-utils/wallet/we_*.bin
+demo-utils/wallet/we_*.logs

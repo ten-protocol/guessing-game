@@ -1,0 +1,12 @@
+#info {
+    padding: 0.2em 0.5em;
+    background-color:darkgrey;
+    color: white;
+    border-radius: 0.5em;
+}
+* {
+    font-size: 1rem;
+}
+input {
+    width: 100%;
+}
