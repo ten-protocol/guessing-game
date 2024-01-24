@@ -5,6 +5,8 @@ contract GuessingGame {
     uint256 private secretNumber;
     address private owner;
     uint256 public totalGuesses;
+    uint256 public resetCount;
+
     mapping(address => uint256) private lastGuess; // Stores the timestamp of the last guess made by each player.
     mapping(address => uint256) private lastDifference; // Stores the difference between the last guess and the secret number for each player.
 
@@ -21,6 +23,7 @@ contract GuessingGame {
 
     constructor() {
         owner = msg.sender;
+        resetCount = 0;
         _resetSecretNumber(); // Initialize the secret number when the contract is deployed.
     }
 
@@ -45,9 +48,9 @@ contract GuessingGame {
         uint256 currentDifference = _number > secretNumber ? _number - secretNumber : secretNumber - _number;
             if (lastResetTime > lastGuess[msg.sender]) {
                 if (currentDifference < lastDifference[msg.sender]) {
-                    feedback = "warmer";
+                    feedback = "Your guess is warmer";
                 } else if (currentDifference > lastDifference[msg.sender]) {
-                    feedback = "colder";
+                    feedback = "Your guess is colder";
                 } else {
                     feedback = "neither warmer nor colder";
                 }
@@ -65,6 +68,7 @@ contract GuessingGame {
         uint256 randomNumber = block.difficulty;
         secretNumber = (randomNumber % MAX_GUESS) + 1; // Generate a new random secret number.
         lastResetTime = block.timestamp; // Record the timestamp of the last game reset.
+        resetCount += 1;
     }
 
     function getContractBalance() external view returns (uint256) {

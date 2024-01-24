@@ -1,0 +1,73 @@
+# Deploys Battleship Game on Azure for Testnet
+# Builds the Battleship Game image, pushes the image to dockerhub and starts the Battleship Game on Azure
+
+name: "[M] Deploy Battleship Game Testnet"
+run-name: "[M] Deploy Battleship Game Testnet"
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Print GitHub variables"
+        # This is a useful record of what the environment variables were at the time the job ran, for debugging and reference
+        run: |
+          echo "GitHub Variables = ${{ toJSON(vars) }}"
+
+      - uses: actions/checkout@v3
+
+      - name: "Set up Docker"
+        uses: docker/setup-buildx-action@v1
+
+      - name: "Login to Azure docker registry"
+        uses: azure/docker-login@v1
+        with:
+          login-server: testnetobscuronet.azurecr.io
+          username: testnetobscuronet
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: "Login via Azure CLI"
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and Push Docker FE Image
+        run: |
+          DOCKER_BUILDKIT=1 docker build -t ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_FE }} -f ./battleship-game/frontend/Dockerfile . 
+          docker push ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_FE }}
+
+      - name: Build and Push Docker API Image
+        run: |
+          DOCKER_BUILDKIT=1 docker build -t ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_API }} -f ./battleship-game/backend/Dockerfile . 
+          docker push ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_API }}
+
+      - name: "Deploy FE to Azure Container Instances"
+        uses: "azure/aci-deploy@v1"
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: battleship-game
+          image: ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_FE }}
+          name: battleship-game-fe
+          location: "uksouth"
+          restart-policy: "Never"
+          environment-variables: NEXT_PUBLIC_API_HOST=https://battleship-game-api.obscuroscan.io NEXT_PUBLIC_FE_VERSION=${{ GITHUB.RUN_NUMBER }}-${{ GITHUB.SHA }}
+          command-line: npm run start-prod
+          ports: ${{ secrets.BATTLESHIP_PORT }}
+          cpu: 2
+          memory: 2
+
+      - name: "Deploy API to Azure Container Instances"
+        uses: "azure/aci-deploy@v1"
+        with:
+          resource-group: ${{ secrets.RESOURCE_GROUP }}
+          dns-name-label: battleship-game-api
+          image: ${{ vars.DOCKER_BUILD_TAG_BATTLESHIP_API }}
+          name: battleship-game-api
+          location: "uksouth"
+          restart-policy: "Never"
+          command-line: ./battleship-game/backend --PORT ${{ secrets.BATTLESHIP_PORT }} --MONGO_URI ${{secrets.BATTLESHIP_MONGO_URI}}
+          ports: ${{ secrets.BATTLESHIP_PORT }}
+          cpu: 2
+          memory: 2

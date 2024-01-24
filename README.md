@@ -10,6 +10,6 @@ Guessing Game version 2.
 
 ### 2. Guessing game (version 2)
 The simplified number guessing game that is run and hosted by Obscuro Labs. Play at http://guessing.fun and see if you 
-can break the game to guess the hidden number!.
+can break the game to guess the hidden number!
 
 
